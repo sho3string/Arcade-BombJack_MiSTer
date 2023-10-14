@@ -17,7 +17,9 @@ library ieee;
 
 entity PROG_ROMS is
 	port (
-		clk_48M     : in  std_logic;
+	    
+	    --clk_48M     : in  std_logic;
+	    dn_clk      : in  std_logic; -- M2M rom loading
 		dn_addr     : in  std_logic_vector(16 downto 0);
 		dn_data     : in  std_logic_vector(7 downto 0);
 		dn_wr       : in  std_logic;
@@ -52,10 +54,17 @@ begin
 	ROM_1N_cs <= '1' when dn_addr(16 downto 13) = X"B" else '0';
 	ROM_1R_cs <= '1' when dn_addr(16 downto 13) = X"C" else '0';
 
-	ROM_1J : work.dpram generic map (13,8)
+	ROM_1J : entity work.dualport_2clk_ram  
+	generic map 
+    (
+        FALLING_A    => true,
+        ADDR_WIDTH   => 13,
+        DATA_WIDTH   => 8
+    )
 	port map
 	(
-		clock_a   => clk_48M,
+		--clock_a   => clk_48M,
+		clock_a   => dn_clk,
 		wren_a    => dn_wr and ROM_1J_cs,
 		address_a => dn_addr(12 downto 0),
 		data_a    => dn_data,
@@ -65,10 +74,17 @@ begin
 		q_b       => ROMD_1J
 	);
 
-	ROM_1L : work.dpram generic map (13,8)
+	ROM_1L : entity work.dualport_2clk_ram  
+	generic map 
+    (
+        FALLING_A    => true,
+        ADDR_WIDTH   => 13,
+        DATA_WIDTH   => 8
+    )
 	port map
 	(
-		clock_a   => clk_48M,
+		--clock_a   => clk_48M,
+		clock_a   => dn_clk,
 		wren_a    => dn_wr and ROM_1L_cs,
 		address_a => dn_addr(12 downto 0),
 		data_a    => dn_data,
@@ -78,10 +94,17 @@ begin
 		q_b       => ROMD_1L
 	);
 
-	ROM_1M : work.dpram generic map (13,8)
+	ROM_1M : entity work.dualport_2clk_ram  
+	generic map 
+    (
+        FALLING_A    => true,
+        ADDR_WIDTH   => 13,
+        DATA_WIDTH   => 8
+    )
 	port map
 	(
-		clock_a   => clk_48M,
+		--clock_a   => clk_48M,
+		clock_a   => dn_clk,
 		wren_a    => dn_wr and ROM_1M_cs,
 		address_a => dn_addr(12 downto 0),
 		data_a    => dn_data,
@@ -91,10 +114,17 @@ begin
 		q_b       => ROMD_1M
 	);
 
-	ROM_1N : work.dpram generic map (13,8)
+	ROM_1N : entity work.dualport_2clk_ram  
+	generic map 
+    (
+        FALLING_A    => true,
+        ADDR_WIDTH   => 13,
+        DATA_WIDTH   => 8
+    )
 	port map
 	(
-		clock_a   => clk_48M,
+		--clock_a   => clk_48M,
+		clock_a   => dn_clk,
 		wren_a    => dn_wr and ROM_1N_cs,
 		address_a => dn_addr(12 downto 0),
 		data_a    => dn_data,
@@ -104,10 +134,17 @@ begin
 		q_b       => ROMD_1N
 	);
 	
-	ROM_1R : work.dpram generic map (13,8)
+	ROM_1R : entity work.dualport_2clk_ram  
+	generic map 
+    (
+        FALLING_A    => true,
+        ADDR_WIDTH   => 13,
+        DATA_WIDTH   => 8
+    )
 	port map
 	(
-		clock_a   => clk_48M,
+		--clock_a   => clk_48M,
+		clock_a   => dn_clk,
 		wren_a    => dn_wr and ROM_1R_cs,
 		address_a => dn_addr(12 downto 0),
 		data_a    => dn_data,

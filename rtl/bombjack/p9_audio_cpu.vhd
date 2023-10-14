@@ -23,7 +23,9 @@ library ieee;
 
 entity audio is
 	port (
-		clk_48M     : in  std_logic;
+	
+		--clk_48M     : in  std_logic;
+		dn_clk      : in  std_logic; -- M2M rom loading
 		dn_addr     : in  std_logic_vector(16 downto 0);
 		dn_data     : in  std_logic_vector(7 downto 0);
 		dn_wr       : in  std_logic;
@@ -189,16 +191,23 @@ begin
 
 	ROM_3H_cs <= '1' when dn_addr(16 downto 13) = X"0" else '0';
 
-	ROM_3H : work.dpram generic map (13,8)
+	ROM_3H : entity work.dualport_2clk_ram  
+	generic map 
+    (
+        FALLING_A    => true,
+        ADDR_WIDTH   => 13,
+        DATA_WIDTH   => 8
+    )
 	port map
 	(
-		clock_a   => clk_48M,
+		--clock_a   => clk_48M,
+		clock_a   => dn_clk,
 		wren_a    => dn_wr and ROM_3H_cs,
 		address_a => dn_addr(12 downto 0),
 		data_a    => dn_data,
 
 		clock_b   => I_CLK_12M,
-		enable_b  => s_srom1,
+		wren_b    => s_srom1,
 		address_b => cpu_addr(12 downto 0),
 		q_b       => rom_3H_data
 	);

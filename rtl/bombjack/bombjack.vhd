@@ -83,14 +83,15 @@ entity BOMB_JACK is
 		-- Active high external buttons
 		I_RESET				: in		std_logic;								-- push button
 
-		clk_48M           : in  std_logic;
-		dn_addr           : in  std_logic_vector(16 downto 0);
-		dn_data           : in  std_logic_vector(7 downto 0);
-		dn_wr             : in  std_logic;
+        dn_clk              : in  std_logic;
+		clk_48M             : in  std_logic;
+		dn_addr             : in  std_logic_vector(16 downto 0);
+		dn_data             : in  std_logic_vector(7 downto 0);
+		dn_wr               : in  std_logic;
 
 		-- Clocks
-		I_CLK_4M				: in	std_logic := '0';
-		I_CLK_6M				: in	std_logic := '0';
+		I_CLK_4M			: in	std_logic := '0';
+		I_CLK_6M			: in	std_logic := '0';
 		I_CLK_12M			: in	std_logic := '0';
 		
 		I_PAUSE				: in	std_logic := '0';
@@ -396,7 +397,8 @@ begin
 	-- chips 1J, 1L, 1M, 1N, 1R page 1
 	prog_roms : entity work.PROG_ROMS
 	port map (
-		clk_48M     => clk_48M,
+		--clk_48M     => clk_48M,
+		dn_clk      => dn_clk,
 		dn_addr     => dn_addr,
 		dn_data     => dn_data,
 		dn_wr       => dn_wr,
@@ -749,7 +751,8 @@ begin
 	-----------------------------------------
 	p9 : entity work.audio
 	port map (
-		clk_48M           => clk_48M,
+		--clk_48M           => clk_48M,
+		dn_clk            => dn_clk,
 		dn_addr           => dn_addr,
 		dn_data           => dn_data,
 		dn_wr             => dn_wr,
