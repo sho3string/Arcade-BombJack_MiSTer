@@ -60,7 +60,7 @@ BEGIN
     port map (
      -- Port A
      clock_a           => clock,
-     clock_a_en   => clken,
+     clock_a_en        => clken,
      address_a         => address,
      data_a            => data,
      wren_a            => wren,

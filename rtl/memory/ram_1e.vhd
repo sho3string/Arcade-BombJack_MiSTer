@@ -35,7 +35,7 @@ BEGIN
       port map (
          -- Port A
          clock_a           => clock_a,
-         do_latch_addr_a   => enable_a,
+         clock_a_en        => enable_a,
          address_a         => address_a,
          data_a            => data_a,
          wren_a            => wren_a,

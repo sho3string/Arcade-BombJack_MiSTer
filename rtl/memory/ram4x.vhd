@@ -56,11 +56,11 @@ ARCHITECTURE SYN OF ram4x IS
 
 BEGIN
 	q    <= sub_wire0(7 DOWNTO 0);
-    dual_port_ram : entity work.dualport_2clk_ram
+    dual_port_ram : entity work.dualport_2clk_ram_clken
       port map (
         -- Port A
         clock_a           => clock,
-        do_latch_addr_a   => clken,
+        clock_a_en        => clken,
         address_a         => address,
         data_a            => data,
         wren_a            => wren,
