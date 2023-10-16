@@ -56,10 +56,11 @@ ARCHITECTURE SYN OF ram_1h IS
 	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (7 DOWNTO 0);
 BEGIN
 	--q <= sub_wire0(7 DOWNTO 0);
-	dual_port_ram : entity work.dualport_2clk_ram
+	dual_port_ram : entity work.dualport_2clk_ram_clken
     port map (
      -- Port A
      clock_a           => clock,
+     clock_a_en   => clken,
      address_a         => address,
      data_a            => data,
      wren_a            => wren,

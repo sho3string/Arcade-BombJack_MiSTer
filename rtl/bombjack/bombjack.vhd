@@ -397,7 +397,7 @@ begin
 	-- chips 1J, 1L, 1M, 1N, 1R page 1
 	prog_roms : entity work.PROG_ROMS
 	port map (
-		--clk_48M     => clk_48M,
+		clk_48M     => clk_48M,
 		dn_clk      => dn_clk,
 		dn_addr     => dn_addr,
 		dn_data     => dn_data,

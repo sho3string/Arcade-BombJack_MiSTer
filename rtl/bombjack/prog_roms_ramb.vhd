@@ -18,7 +18,7 @@ library ieee;
 entity PROG_ROMS is
 	port (
 	    
-	    --clk_48M     : in  std_logic;
+	    clk_48M     : in  std_logic;
 	    dn_clk      : in  std_logic; -- M2M rom loading
 		dn_addr     : in  std_logic_vector(16 downto 0);
 		dn_data     : in  std_logic_vector(7 downto 0);

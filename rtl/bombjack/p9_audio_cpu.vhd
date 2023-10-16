@@ -191,7 +191,7 @@ begin
 
 	ROM_3H_cs <= '1' when dn_addr(16 downto 13) = X"0" else '0';
 
-	ROM_3H : entity work.dualport_2clk_ram  
+	ROM_3H : entity work.dualport_2clk_ram_clken 
 	generic map 
     (
         FALLING_A    => true,
@@ -207,7 +207,7 @@ begin
 		data_a    => dn_data,
 
 		clock_b   => I_CLK_12M,
-		wren_b    => s_srom1,
+		clock_b_en    => s_srom1,
 		address_b => cpu_addr(12 downto 0),
 		q_b       => rom_3H_data
 	);

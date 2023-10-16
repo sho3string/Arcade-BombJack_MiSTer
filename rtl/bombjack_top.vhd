@@ -31,7 +31,7 @@ port 	(
 		clk_48M			: in std_logic;
 		clk_6M			: out std_logic;
 
-		reset				: in std_logic;
+		reset	        : in std_logic;
 
 		p1_start, p1_coin, p1_jump, p1_down, p1_up, p1_left, p1_right : in std_logic;
 		p2_start, p2_coin, p2_jump, p2_down, p2_up, p2_left, p2_right : in std_logic;
@@ -77,8 +77,8 @@ architecture RTL of bombjack_top is
 	signal clk_6M_en		: std_logic := '0';
 	signal clk_12M			: std_logic := '0';
 
-	signal i_rom_4P_data		: std_logic_vector( 7 downto 0) := (others => '0');
-	signal o_rom_4P_addr		: std_logic_vector(12 downto 0) := (others => '0');
+	signal i_rom_4P_data	: std_logic_vector( 7 downto 0) := (others => '0');
+	signal o_rom_4P_addr	: std_logic_vector(12 downto 0) := (others => '0');
 	signal o_rom_4P_ena		: std_logic := '1';
 
 	signal i_rom_7JLM_data	: std_logic_vector(23 downto 0) := (others => '0');
@@ -94,7 +94,7 @@ architecture RTL of bombjack_top is
 	signal o_rom_8RNL_ena	: std_logic := '1';
 
 	signal ctr_even			: std_logic_vector(2 downto 0) := (others => '0');
-	signal ctr_odd			   : std_logic_vector(3 downto 0) := (others => '0');
+	signal ctr_odd			: std_logic_vector(3 downto 0) := (others => '0');
 
 	signal ROM_7J_cs,
 	       ROM_7L_cs,
@@ -254,7 +254,7 @@ begin
 	-- page 4 schematic - sprite ROMS
 	---------------------------------
 	
-	ROM_7J : entity work.dualport_2clk_ram  
+	ROM_7J : entity work.dualport_2clk_ram_clken
 	generic map 
     (
         FALLING_A    => true,
@@ -270,12 +270,12 @@ begin
 		data_a    => dn_data,
 
 		clock_b   => clk_12M,
-		wren_b  => o_rom_7JLM_ena,
+		clock_b_en  => o_rom_7JLM_ena,
 		address_b => o_rom_7JLM_addr,
 		q_b       => i_rom_7JLM_data(23 downto 16)
 	);
 
-	ROM_7L : entity work.dualport_2clk_ram  
+	ROM_7L : entity work.dualport_2clk_ram_clken  
 	generic map 
     (
         FALLING_A    => true,
@@ -291,12 +291,12 @@ begin
 		data_a    => dn_data,
 
 		clock_b   => clk_12M,
-		wren_b  => o_rom_7JLM_ena,
+		clock_b_en  => o_rom_7JLM_ena,
 		address_b => o_rom_7JLM_addr,
 		q_b       => i_rom_7JLM_data(15 downto 8)
 	);
 
-	ROM_7M : entity work.dualport_2clk_ram  
+	ROM_7M : entity work.dualport_2clk_ram_clken  
 	generic map 
     (
         FALLING_A    => true,
@@ -312,7 +312,7 @@ begin
 		data_a    => dn_data,
 
 		clock_b   => clk_12M,
-		wren_b  => o_rom_7JLM_ena,
+		clock_b_en  => o_rom_7JLM_ena,
 		address_b => o_rom_7JLM_addr,
 		q_b       => i_rom_7JLM_data(7 downto 0)
 	);
@@ -321,7 +321,7 @@ begin
 	-- page 6 schematic - character generator ROMs
 	----------------------------------------------
 
-	ROM_8K : entity work.dualport_2clk_ram  
+	ROM_8K : entity work.dualport_2clk_ram_clken
 	generic map 
     (
         FALLING_A    => true,
@@ -337,12 +337,12 @@ begin
 		data_a    => dn_data,
 
 		clock_b   => clk_12M,
-		wren_b  => o_rom_8KHE_ena,
+		clock_b_en  => o_rom_8KHE_ena,
 		address_b => '0' & o_rom_8KHE_addr(11 downto 0),
 		q_b       => i_rom_8KHE_data(23 downto 16)
 	);
 	
-	ROM_8H : entity work.dualport_2clk_ram  
+	ROM_8H : entity work.dualport_2clk_ram_clken
 	generic map 
     (
         FALLING_A    => true,
@@ -358,12 +358,12 @@ begin
 		data_a    => dn_data,
 
 		clock_b   => clk_12M,
-		wren_b  => o_rom_8KHE_ena,
+		clock_b_en  => o_rom_8KHE_ena,
 		address_b => '0' & o_rom_8KHE_addr(11 downto 0),
 		q_b       => i_rom_8KHE_data(15 downto 8)
 	);
 
-	ROM_8E : entity work.dualport_2clk_ram  
+	ROM_8E : entity work.dualport_2clk_ram_clken 
 	generic map 
     (
         FALLING_A    => true,
@@ -379,7 +379,7 @@ begin
 		data_a    => dn_data,
 
 		clock_b   => clk_12M,
-		wren_b    => o_rom_8KHE_ena,
+		clock_b_en    => o_rom_8KHE_ena,
 		address_b => '0' & o_rom_8KHE_addr(11 downto 0),
 		q_b       => i_rom_8KHE_data(7 downto 0)
 	);
@@ -388,7 +388,7 @@ begin
 	-- page 7 schematic - background tiles ROMs
 	-------------------------------------------
 
-	ROM_4P : entity work.dualport_2clk_ram  
+	ROM_4P : entity work.dualport_2clk_ram_clken  
 	generic map 
     (
         FALLING_A    => true,
@@ -404,12 +404,12 @@ begin
 		data_a    => dn_data,
 
 		clock_b   => clk_12M,
-		wren_b    => o_rom_4P_ena,
+		clock_b_en    => o_rom_4P_ena,
 		address_b => '0' & o_rom_4P_addr(11 downto 0),
 		q_b       => i_rom_4P_data
 	);
 
-	ROM_8R : entity work.dualport_2clk_ram  
+	ROM_8R : entity work.dualport_2clk_ram_clken  
 	generic map 
     (
         FALLING_A    => true,
@@ -425,12 +425,12 @@ begin
 		data_a    => dn_data,
 
 		clock_b   => clk_12M,
-		wren_b  => o_rom_8RNL_ena,
+		clock_b_en  => o_rom_8RNL_ena,
 		address_b => o_rom_8RNL_addr,
 		q_b       => i_rom_8RNL_data(23 downto 16)
 	);
 
-	ROM_8N : entity work.dualport_2clk_ram  
+	ROM_8N : entity work.dualport_2clk_ram_clken
 	generic map 
     (
         FALLING_A    => true,
@@ -446,12 +446,12 @@ begin
 		data_a    => dn_data,
 
 		clock_b   => clk_12M,
-		wren_b  => o_rom_8RNL_ena,
+		clock_b_en  => o_rom_8RNL_ena,
 		address_b => o_rom_8RNL_addr,
 		q_b       => i_rom_8RNL_data(15 downto 8)
 	);
 
-	ROM_8L : entity work.dualport_2clk_ram  
+	ROM_8L : entity work.dualport_2clk_ram_clken  
 	generic map 
     (
         FALLING_A    => true,
@@ -467,7 +467,7 @@ begin
 		data_a    => dn_data,
 
 		clock_b   => clk_12M,
-		wren_b  => o_rom_8RNL_ena,
+		clock_b_en  => o_rom_8RNL_ena,
 		address_b => o_rom_8RNL_addr,
 		q_b       => i_rom_8RNL_data(7 downto 0)
 	);

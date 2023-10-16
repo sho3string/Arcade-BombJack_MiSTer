@@ -1,9 +1,6 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
--- not relevant to xilinx 
---LIBRARY altera_mf;
---USE altera_mf.altera_mf_components.all;
 
 ENTITY ram_1e IS 
 	generic (
@@ -30,7 +27,7 @@ END ram_1e;
 
 ARCHITECTURE SYN OF ram_1e IS
 BEGIN
-    dual_port_ram : entity work.dualport_2clk_ram
+    dual_port_ram : entity work.dualport_2clk_ram_clken
       generic map (
          ADDR_WIDTH        => addr_width_g,
          DATA_WIDTH        => data_width_g
@@ -38,6 +35,7 @@ BEGIN
       port map (
          -- Port A
          clock_a           => clock_a,
+         do_latch_addr_a   => enable_a,
          address_a         => address_a,
          data_a            => data_a,
          wren_a            => wren_a,
@@ -45,6 +43,7 @@ BEGIN
 
          -- Port B
          clock_b           => clock_b,
+         clock_b_en        => enable_b,
          address_b         => address_b,
          data_b            => data_b,
          wren_b            => wren_b,

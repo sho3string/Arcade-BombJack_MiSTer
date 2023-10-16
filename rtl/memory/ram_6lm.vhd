@@ -26,7 +26,7 @@ END ram_6lm;
 
 ARCHITECTURE SYN OF ram_6lm IS
 BEGIN
-	dual_port_ram : entity work.dualport_2clk_ram
+	dual_port_ram : entity work.dualport_2clk_ram_clken
       generic map (
          ADDR_WIDTH        => addr_width_g,
          DATA_WIDTH        => data_width_g
@@ -34,6 +34,7 @@ BEGIN
       port map (
          -- Port A
          clock_a           => clock_a,
+         clock_a_en        => enable_a,
          address_a         => address_a,
          data_a            => data_a,
          wren_a            => wren_a,
@@ -41,6 +42,7 @@ BEGIN
 
          -- Port B
          clock_b           => clock_b,
+         clock_b_en        => enable_b,
          address_b         => address_b,
          data_b            => data_b,
          wren_b            => wren_b,
